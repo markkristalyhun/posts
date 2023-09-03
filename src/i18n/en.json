@@ -1,0 +1,13 @@
+{
+  "posts": "Posts",
+  "details": "Details",
+  "delete": "Delete",
+  "posts.loading.error.title": "Error",
+  "posts.loading.error.description": "Error while loading posts.",
+  "posts.loading.delete.title": "Error",
+  "posts.loading.delete.description": "Error while deleting post.",
+  "post.details.error.title": "Error",
+  "post.details.error.description": "Error while loading the details of this post.",
+  "cancel": "Cancel",
+  "close": "Close"
+}
