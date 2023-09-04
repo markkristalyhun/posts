@@ -22,6 +22,7 @@ export const PostListItem: React.FC<PostListItemProps> = ({post}) => {
       rightContent={() => (
         <Button
           titleStyle={styles.deleteButtonTitle}
+          icon={{ name: 'delete', color: 'white' }}
           buttonStyle={styles.deleteButton}
           title={t('delete')}
           onPress={() => onDelete?.(post)}

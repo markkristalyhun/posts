@@ -3,7 +3,7 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {Button} from '@rneui/base';
 import * as React from 'react';
 import {useTranslation} from 'react-i18next';
-import {Alert, StyleSheet} from 'react-native';
+import {Alert, StyleSheet, View} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {PostList, PostListContext} from '../component';
 import {Loader} from '../component/loader';
@@ -13,18 +13,33 @@ import {useDeletePostMutation, useGetPostsQuery} from '../redux';
 
 interface HeaderProps {
   showFavoriteOnly: boolean;
-  onPress?: () => void;
+  onFavoritePress?: () => void;
+  onRefreshPress?: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({showFavoriteOnly, onPress}) => {
+const Header: React.FC<HeaderProps> = ({
+  showFavoriteOnly,
+  onFavoritePress,
+  onRefreshPress,
+}) => {
   return (
-    <Button
-      buttonStyle={styles.headerButton}
-      icon={
-        <Icon name={showFavoriteOnly ? 'filter' : 'filter-outline'} size={20} />
-      }
-      onPress={onPress}
-    />
+    <View style={styles.headerContainer}>
+      <Button
+        buttonStyle={styles.headerButton}
+        icon={<Icon name={'refresh'} size={20} />}
+        onPress={onRefreshPress}
+      />
+      <Button
+        buttonStyle={styles.headerButton}
+        icon={
+          <Icon
+            name={showFavoriteOnly ? 'filter' : 'filter-outline'}
+            size={20}
+          />
+        }
+        onPress={onFavoritePress}
+      />
+    </View>
   );
 };
 
@@ -36,7 +51,7 @@ export const PostListScreen: React.FC<ListPageProps> = () => {
 
   const {t} = useTranslation();
 
-  const {data, error, isLoading} = useGetPostsQuery();
+  const {data, error, isLoading, refetch, isFetching} = useGetPostsQuery();
   const [deletePost, deleteResult] = useDeletePostMutation();
 
   const [showFavoriteOnly, setShowFavoriteOnly] = React.useState(false);
@@ -53,11 +68,12 @@ export const PostListScreen: React.FC<ListPageProps> = () => {
       headerRight: () => (
         <Header
           showFavoriteOnly={showFavoriteOnly}
-          onPress={() => toggleFavoriteOnly()}
+          onFavoritePress={() => toggleFavoriteOnly()}
+          onRefreshPress={() => refetch()}
         />
       ),
     });
-  }, [navigation, showFavoriteOnly, toggleFavoriteOnly]);
+  }, [navigation, showFavoriteOnly, toggleFavoriteOnly, refetch]);
 
   React.useEffect(() => {
     if (deleteResult.isSuccess || deleteResult.isError) {
@@ -78,7 +94,7 @@ export const PostListScreen: React.FC<ListPageProps> = () => {
     deletePost({id: post.id});
   };
 
-  if (isLoading) {
+  if (isLoading || isFetching) {
     return <Loader />;
   }
 
@@ -123,6 +139,10 @@ export const PostListScreen: React.FC<ListPageProps> = () => {
 };
 
 const styles = StyleSheet.create({
+  headerContainer: {
+    flexDirection: 'row',
+    gap: 2,
+  },
   headerButton: {
     backgroundColor: 'none',
   },

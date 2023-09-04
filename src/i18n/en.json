@@ -9,5 +9,6 @@
   "post.details.error.title": "Error",
   "post.details.error.description": "Error while loading the details of this post.",
   "cancel": "Cancel",
-  "close": "Close"
+  "close": "Close",
+  "post.details.comment.section.title": "Comments"
 }
