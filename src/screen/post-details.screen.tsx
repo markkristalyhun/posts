@@ -30,7 +30,6 @@ export const PostDetailsScreen: React.FC<PostDetailsScreenProps> = () => {
     () => postQuery?.data?.find(elem => elem.id === params.post.id),
     [params.post.id, postQuery.data],
   );
-  console.log(post);
 
   const toggleFavorite = React.useCallback(() => {
     if (!post) {
