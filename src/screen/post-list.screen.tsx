@@ -81,11 +81,15 @@ export const PostListScreen: React.FC<ListPageProps> = () => {
     }
   }, [deleteResult, setRefreshing]);
 
-  const dataToShow = showFavoriteOnly
-    ? data?.filter(post => post.favourite)
-    : [...(data ?? [])].sort(post => (post.favourite ? -1 : 1));
+  const dataToShow = React.useMemo(
+    () =>
+      showFavoriteOnly
+        ? data?.filter(post => post.favourite)
+        : [...(data ?? [])].sort(post => (post.favourite ? -1 : 1)),
+    [data, showFavoriteOnly],
+  );
 
-  const onListItempressed = (post: PostModel) => {
+  const onListItemPressed = (post: PostModel) => {
     navigation.navigate('Details', {post});
   };
 
@@ -129,7 +133,7 @@ export const PostListScreen: React.FC<ListPageProps> = () => {
   return (
     <PostListContext.Provider
       value={{
-        onPress: onListItempressed,
+        onPress: onListItemPressed,
         onDelete: onListItemDeletePressed,
         refreshing: refreshing,
       }}>

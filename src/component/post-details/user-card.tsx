@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {Linking, StyleSheet, Text} from 'react-native';
-import {UserModel} from '../model';
-import {Card} from './card';
+import {UserModel} from '../../model';
+import {Card} from '../card';
 
 interface UserCardProps {
   user: UserModel;

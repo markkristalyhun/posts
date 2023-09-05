@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {StyleSheet, Text} from 'react-native';
-import {CommentModel} from '../model';
-import {Card} from './card';
+import {CommentModel} from '../../model';
+import {Card} from '../card';
 
 interface CommentCardProps {
   comment: CommentModel;

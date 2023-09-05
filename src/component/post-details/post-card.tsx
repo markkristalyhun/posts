@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {StyleSheet, Text} from 'react-native';
-import {PostModel} from '../model';
-import {Card} from './card';
+import {PostModel} from '../../model';
+import {Card} from '../card';
 
 interface PostCardProps {
   post: PostModel;

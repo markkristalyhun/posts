@@ -10,7 +10,7 @@ interface PostListItemProps {
   post: PostModel;
 }
 
-export const PostListItem: React.FC<PostListItemProps> = ({post}) => {
+const PostListItem: React.FC<PostListItemProps> = ({post}) => {
   const {t} = useTranslation();
 
   const {onPress, onDelete} = useContext(PostListContext);
@@ -19,15 +19,15 @@ export const PostListItem: React.FC<PostListItemProps> = ({post}) => {
     <ListItem.Swipeable
       containerStyle={{backgroundColor: post.favourite ? '#ffff00' : '#fff'}}
       onPress={() => onPress?.(post)}
-      rightContent={() => (
+      rightContent={
         <Button
           titleStyle={styles.deleteButtonTitle}
-          icon={{ name: 'delete', color: 'white' }}
+          icon={{name: 'delete', color: 'white'}}
           buttonStyle={styles.deleteButton}
           title={t('delete')}
           onPress={() => onDelete?.(post)}
         />
-      )}>
+      }>
       <ListItem.Content>
         <View style={styles.container}>
           <Text style={styles.title}>{post.title}</Text>
@@ -37,6 +37,8 @@ export const PostListItem: React.FC<PostListItemProps> = ({post}) => {
     </ListItem.Swipeable>
   );
 };
+
+export default React.memo(PostListItem);
 
 const styles = StyleSheet.create({
   container: {

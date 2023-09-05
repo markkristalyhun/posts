@@ -1,11 +1,12 @@
 import {Text} from '@rneui/base';
 import * as React from 'react';
-import {useTranslation} from 'react-i18next';
 import {SectionList, StyleSheet, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {CommentModel, PostModel, UserModel} from '../model';
+import {CommentModel, PostModel, UserModel} from '../../model';
 import {CommentCard} from './comment-card';
 import {PostCard} from './post-card';
+import {postDetailListAdapter} from './post-detail-list-adapter';
+import {PostDetailsListItemModel} from './post-details.types';
 import {UserCard} from './user-card';
 
 interface PostDetailsProps {
@@ -14,21 +15,8 @@ interface PostDetailsProps {
   post: PostModel;
 }
 
-type CellType = 'user' | 'comment' | 'post';
-
-interface ListItemModel {
-  id: string;
-  cell: CellType;
-  data: UserModel | CommentModel | PostModel;
-}
-
 interface ListItemComponentProps {
-  listItem: ListItemModel;
-}
-
-interface ListModel {
-  title?: string;
-  data: ListItemModel[];
+  listItem: PostDetailsListItemModel;
 }
 
 const ListItemComponent: React.FC<ListItemComponentProps> = ({listItem}) => {
@@ -46,35 +34,11 @@ export const PostDetails: React.FC<PostDetailsProps> = ({
   user,
   comments,
 }) => {
-  const {t} = useTranslation();
   const insets = useSafeAreaInsets();
 
-  const commentsListModel: ListItemModel[] = comments.map(comment => ({
-    id: `comment_${comment.id}`,
-    cell: 'comment',
-    data: comment,
-  }));
-
-  const listModel: ListModel[] = [
-    {
-      data: [
-        {
-          id: `post_${post.id}`,
-          cell: 'post',
-          data: post,
-        },
-        {
-          id: `user_${user.id}`,
-          cell: 'user',
-          data: user,
-        },
-      ],
-    },
-    {
-      title: t('post.details.comment.section.title'),
-      data: commentsListModel,
-    },
-  ];
+  const listModel = React.useMemo(() => {
+    return postDetailListAdapter(post, user, comments);
+  }, [comments, post, user]);
 
   return (
     <SectionList
