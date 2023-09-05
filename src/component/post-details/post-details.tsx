@@ -1,6 +1,5 @@
-import {Text} from '@rneui/base';
 import * as React from 'react';
-import {SectionList, StyleSheet, View} from 'react-native';
+import {SectionList, StyleSheet, Text, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {CommentModel, PostModel, UserModel} from '../../model';
 import {CommentCard} from './comment-card';

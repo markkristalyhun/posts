@@ -30,7 +30,7 @@ export const PostList: React.FC<PostListProps> = ({posts}) => {
       data={posts}
       keyExtractor={post => `${post.id}`}
       renderItem={({item}) => <PostListItem post={item} />}
-      ItemSeparatorComponent={(<Divider />) as unknown as React.ComponentType}
+      ItemSeparatorComponent={() => <Divider />}
     />
   );
 };
